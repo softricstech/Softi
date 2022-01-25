@@ -1,3 +1,4 @@
+from logging.config import listen
 import kit
 import speech_recognition as sr
 import pyttsx3
@@ -25,17 +26,27 @@ def take_command():
         with sr.Microphone() as source:
             print('listening...')
             voice = listener.listen(source)
-            command = listener.recognize_google(voice)
-            command = command.lower()
-            if 'softi ' in command:
-                command = command.replace('softi', '')
-                return command
+            if voice:
+                print('recognizing...')
+                command = listener.recognize_google(voice)
+                print(command)
+                command = command.lower()
+                if 'softi' in command:
+                    command = command.replace('softi', '')
+                    print(command) 
+                
+                else:
+                    command="sorry"
+                    return command
             else:
-                  command="sorry"
+                command="sorry"
+                return command
 
-                  return command
+            
+
     except:
-        pass
+        command="sorry"
+        return command
 
 
 def run_alexa():
